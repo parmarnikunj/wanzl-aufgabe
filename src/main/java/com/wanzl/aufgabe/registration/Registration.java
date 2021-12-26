@@ -1,24 +1,42 @@
 package com.wanzl.aufgabe.registration;
 
 import com.wanzl.aufgabe.Benutzer;
+import com.wanzl.aufgabe.repositories.BenutzerRepo;
+import com.wanzl.aufgabe.repositories.PasswordRepo;
+import org.apache.commons.text.RandomStringGenerator;
 
+import java.util.Random;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
 public class Registration implements IRegistrierung {
-    Benutzer benutzer = new Benutzer();
-    String email;
-    String nickname;
+
+    private BenutzerRepo benutzerRepo;
+    private PasswordRepo passwordRepo;
+
+    public Registration(BenutzerRepo benuterRepo, PasswordRepo passwordRepo) {
+        this.benutzerRepo = benuterRepo;
+        this.passwordRepo = passwordRepo;
+    }
 
     @Override
     public void Registrieren(String email, String passwort, String nickname) {
-        this.email = email;
-        this.nickname = nickname;
 
-        benutzer.setEmail(email);
+        Benutzer benutzer = new Benutzer(email);
         benutzer.setNickname(nickname);
+        String password = passwort;
+        if(passwort == null) {
+            password = createRandomPassword();
+        }
+
+        passwordRepo.saveBenutzerPassword(benutzerRepo.save(benutzer).getId(), password);
+
+    }
+
+    private String createRandomPassword() {
+        return new RandomStringGenerator.Builder().withinRange(33, 45).build().generate(10);
     }
 
     public String createTocken() {
