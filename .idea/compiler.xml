@@ -13,7 +13,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="wanzl-Aufgabe" options="--add-exports java.base/sun.security.util=ALL-UNNAMED" />
+      <module name="wanzl-Aufgabe" options="" />
     </option>
   </component>
 </project>
