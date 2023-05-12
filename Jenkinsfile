@@ -3,6 +3,9 @@ pipeline {
 
     stages {
         stage('Build') {
+            when {
+                branch "dev-*"
+            }
             steps {
                 echo 'Building..'
             }
